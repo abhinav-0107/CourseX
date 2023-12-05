@@ -1,14 +1,18 @@
-## Create a course selling website Version 2
+## Course selling website Version 3
 
 ### Description
-Functionally the same as Version 1. Routes are different though. 
-We now have implemented actual authentication here by using Json Web Tokens (JWT). 
-When the user signs up, they get backs a jwt that is valid for 1 hour. 
-They should then send just that jwt vs sending username and password to the authenticated routes.
-This makes the routes more secured.
+Functionally same as Version 3.
+As this website is build on MERN Stack. I have used MongoDB as my database.
+Created separate collections for each entity (ADMIN, USER, COURSE) in the database.
+This makes data persistent!
+
 
 ## Routes
 ### Admin Routes:
+ - GET /admin/me
+   Description: Gets username.
+   Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
+   Output: { username: 'Admin' }
  - POST /admin/signup
    Description: Creates a new admin account.
    Input: { username: 'admin', password: 'pass' }
@@ -25,6 +29,10 @@ This makes the routes more secured.
    Description: Edits an existing course. courseId in the URL path should be replaced with the ID of the course to be edited.
    Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }, Body: { title: 'updated course title', description: 'updated course description', price: 100, imageLink: 'https://updatedlinktoimage.com', published: false }
    Output: { message: 'Course updated successfully' }
+- GET /admin/courses/:courseId
+   Description: Gets a particular course.
+   Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
+   Output: { course: 'Course with courseId' }
  - GET /admin/courses
    Description: Returns all the courses.
    Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
