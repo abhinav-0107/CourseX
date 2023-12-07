@@ -1,13 +1,16 @@
-## Course selling website Version 4
+
+## Course selling website Version 6
 
 ### Description
-Functionally same as Version 3.
-As this website is build on MERN Stack. I have used MongoDB as my database.
-Created separate collections for each entity (ADMIN, USER, COURSE) in the database.
-This makes data persistent!
+In this version I have added Admin Frontend built on React and Material UI.
+Admin can Signup/Login. Admin can ADD, SEE, EDIT and DELETE courses.
 
 ## Routes
 ### Admin Routes:
+ - GET /admin/me
+   Description: Gets username.
+   Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
+   Output: { username: 'Admin' }
  - POST /admin/signup
    Description: Creates a new admin account.
    Input: { username: 'admin', password: 'pass' }
@@ -24,11 +27,18 @@ This makes data persistent!
    Description: Edits an existing course. courseId in the URL path should be replaced with the ID of the course to be edited.
    Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }, Body: { title: 'updated course title', description: 'updated course description', price: 100, imageLink: 'https://updatedlinktoimage.com', published: false }
    Output: { message: 'Course updated successfully' }
+- GET /admin/courses/:courseId
+   Description: Gets a particular course.
+   Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
+   Output: { course: 'Course with courseId' }
  - GET /admin/courses
    Description: Returns all the courses.
    Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
    Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
-   User Routes:
+- DELETE /admin/courses/:courseId
+   Description: Delete an existing course. courseId in the URL path should be replaced with the ID of the course to be Deleted.
+   Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
+   Output: { message: "Course deleted successfully!" }
 
 ### User routes
  - POST /users/signup
