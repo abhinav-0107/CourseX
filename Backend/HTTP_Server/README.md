@@ -36,7 +36,7 @@ File restructuring of the backend.
    Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
    Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
    User Routes:
-   - DELETE /admin/courses/:courseId
+- DELETE /admin/courses/:courseId
    Description: Delete an existing course. courseId in the URL path should be replaced with the ID of the course to be Deleted.
    Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }
    Output: { message: "Course deleted successfully!" }
