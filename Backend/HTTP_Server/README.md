@@ -1,9 +1,8 @@
-## Course selling website Version 5
+## Course selling website Version 6
 
 ### Description
-Functionally same as Version 4. Though I have added a new Admin Route (Now admin can delete a course)
-File restructuring of the backend.
-
+In this version I have added Admin Frontend built on React and Material UI.
+Admin can Signup/Login. Admin can ADD, SEE, EDIT and DELETE courses.
 
 ## Routes
 ### Admin Routes:
