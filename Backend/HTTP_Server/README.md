@@ -1,11 +1,10 @@
-## Create a course selling website Version 2
+## Course selling website Version 4
 
 ### Description
-Functionally the same as Version 1. Routes are different though. 
-We now have implemented actual authentication here by using Json Web Tokens (JWT). 
-When the user signs up, they get backs a jwt that is valid for 1 hour. 
-They should then send just that jwt vs sending username and password to the authenticated routes.
-This makes the routes more secured.
+Functionally same as Version 3.
+As this website is build on MERN Stack. I have used MongoDB as my database.
+Created separate collections for each entity (ADMIN, USER, COURSE) in the database.
+This makes data persistent!
 
 ## Routes
 ### Admin Routes:
