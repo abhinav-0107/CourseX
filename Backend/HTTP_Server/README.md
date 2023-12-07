@@ -4,7 +4,6 @@
 Functionally same as Version 4. Though I have added a new Admin Route (Now admin can delete a course)
 File restructuring of the backend.
 
-
 ## Routes
 ### Admin Routes:
  - GET /admin/me
