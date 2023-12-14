@@ -55,7 +55,6 @@ router.post("/login", async (req, res) => {
 router.post("/courses", authenticateAdminJwt, async (req, res) => {
   // logic to create a course
   const course = req.body;
-  console.log(course);
   if (!course.title) {
     res.status(411).json({ message: "Please enter course title!" });
   }

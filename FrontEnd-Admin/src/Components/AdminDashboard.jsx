@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
   const navigate = useNavigate();
+  
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: 150 }}>
       <Card

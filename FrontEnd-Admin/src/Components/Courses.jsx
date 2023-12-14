@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import courseState from "../store/atoms/course";
+import { useSetRecoilState } from "recoil";
 import { Card, Typography, CardMedia, ButtonBase } from "@mui/material";
-import axios from "axios";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
@@ -41,9 +43,15 @@ function Courses() {
 
 function CourseCard(props) {
   const navigate = useNavigate();
+  const setCourse = useSetRecoilState(courseState);
+  
   return (
       <ButtonBase
         onClick={() => {
+          setCourse((prevCourseState) => ({
+            ...prevCourseState,
+            isLoading : true
+          }));
           navigate(`/course/${props.course._id}`);
         }}
       >
