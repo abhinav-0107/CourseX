@@ -1,7 +1,19 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import Loading from "./Loading";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import courseState from "../store/atoms/course";
+import {
+  courseTitle,
+  isEditing,
+  courseDescription,
+  coursePrice,
+  courseImageLink,
+  isCourseLoading
+} from "../store/selectors/course";
 import {
   Card,
   Typography,
@@ -13,108 +25,134 @@ import {
   Checkbox,
   ButtonBase,
 } from "@mui/material";
-import axios from "axios";
 
 function Course() {
-  const navigate = useNavigate();
-  const [course, setCourse] = useState({});
   const { courseId } = useParams();
-  const [IsEditing, setIsEditing] = useState(false);
+  const IsEditing = useRecoilValue(isEditing);
+  const IsLoading = useRecoilValue(isCourseLoading);
+  const setCourse = useSetRecoilState(courseState);
+
+  async function getCourse() {
+    const response = await axios.get(
+      `http://localhost:3000/admin/courses/${courseId}`,
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    const courseDetail = response.data;
+    setTimeout(() => {
+      setCourse({
+        course : courseDetail.course,
+        isLoading : false,
+        isEditing : false
+      });
+    }, 350);
+  }
 
   useEffect(() => {
-    async function getCourse() {
-      const response = await axios.get(
-        `http://localhost:3000/admin/courses/${courseId}`,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
-      const courseDetail = response.data;
-      setCourse(courseDetail.course);
-    }
     getCourse();
   }, []);
 
+  if(IsLoading){
+    return <Loading/>
+  }
+
   return (
     <div>
-      <GrayTopper title={course.title} />
-      <Card
-        style={{
-          width: 300,
-          height: 340,
-          margin: 40,
-          padding: 5,
-        }}
-      >
-        <Typography textAlign={"center"} variant="h6">
-          {course.title}
-        </Typography>
-        <Typography textAlign={"center"} variant="subtitle1">
-          {course.description}
-        </Typography>
-
-        <br />
-
-        <CardMedia
-          component="img"
-          alt="Course Image"
-          height="200"
-          src={course.imageLink}
-        />
-
-        <br />
-
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography>₹{course.price}</Typography>
-          <div >
-            <Button
-              style={{marginRight : 10 }}
-              variant="contained"
-              size="large"
-              onClick={async () => {
-                if (confirm('Are you sure you want to DELETE this course?')) {
-                  await axios.delete(
-                    `http://localhost:3000/admin/courses/${courseId}`,
-                    {
-                      headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token"),
-                      },
-                    }
-                    );
-                    navigate("/courses");
-                    alert("This course was DELETED!");
-                }
-              }}
-            >
-              Delete
-            </Button>
-            <Button
-              variant="contained"
-              size="large"
-              onClick={() => {
-                setIsEditing(true);
-              }}
-            >
-              Edit
-            </Button>
-          </div>
-        </div>
-      </Card>
-      {IsEditing ? (
-        <UpdateCard
-          setCourse={setCourse}
-          courseId={courseId}
-          course={course}
-          setIsEditing={setIsEditing}
-        />
-      ) : null}
+      <GrayTopper/>
+      <CourseCard/>
+      {IsEditing ? <UpdateCard/> : null}
     </div>
   );
 }
 
-function GrayTopper(props) {
+function CourseCard() {
+  const navigate = useNavigate();
+  const setIsEditing = useSetRecoilState(courseState);
+  const title = useRecoilValue(courseTitle);
+  const description = useRecoilValue(courseDescription);
+  const price = useRecoilValue(coursePrice);
+  const imageLink = useRecoilValue(courseImageLink);
+  const { courseId } = useParams();
+
+  return (
+    <Card
+    style={{
+      width: 300,
+      height: 340,
+      margin: 40,
+      padding: 5,
+    }}
+  >
+    <Typography textAlign={"center"} variant="h6">
+      {title}
+    </Typography>
+    <Typography textAlign={"center"} variant="subtitle1">
+      {description}
+    </Typography>
+
+    <br />
+
+    <CardMedia
+      component="img"
+      alt="Course Image"
+      height="200"
+      src={imageLink}
+    />
+
+    <br />
+
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <Typography>₹{price}</Typography>
+      <div>
+        {/* Delete Button */}
+        <Button
+          style={{ marginRight: 10 }}
+          variant="contained"
+          size="large"
+          onClick={async () => {
+            if (confirm("Are you sure you want to DELETE this course?")) {
+              await axios.delete(
+                `http://localhost:3000/admin/courses/${courseId}`,
+                {
+                  headers: {
+                    Authorization:
+                      "Bearer " + localStorage.getItem("token"),
+                  },
+                }
+              );
+              navigate("/courses");
+              alert("This course was DELETED!");
+            }
+          }}
+        >
+          Delete
+        </Button>
+
+        {/* Edit Button */}
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            setIsEditing((prevCourseState) => ({
+              ...prevCourseState,
+              isEditing : true
+            }));
+          }}
+        >
+          Edit
+        </Button>
+      </div>
+    </div>
+  </Card>
+  )
+}
+
+function GrayTopper() {
+  const title = useRecoilValue(courseTitle);
+
   return (
     <div
       style={{
@@ -133,27 +171,25 @@ function GrayTopper(props) {
         }}
       >
         <Typography
-          style={{ fontweight: 600, color: "white" }}
+          style={{ fontWeight: 600, color: "white" }}
           textAlign={"center"}
           variant={"h2"}
         >
-          {props.title}
+           {title}
         </Typography>
       </div>
     </div>
   );
 }
 
-function UpdateCard(props) {
-  const [UpdatedTitle, setUpdatedTitle] = useState(props.course.title);
-  const [UpdatedDescription, setUpdatedDescription] = useState(
-    props.course.description
-  );
-  const [UpdatedPrice, setUpdatedPrice] = useState(props.course.price);
-  const [UpdatedPublish, setUpdatedPublish] = useState(props.course.publish);
-  const [UpdatedImageLink, setUpdatedImageLink] = useState(
-    props.course.imageLink
-  );
+function UpdateCard() {
+  const { courseId } = useParams();
+  const [course,setCourse] = useRecoilState(courseState);
+  const [UpdatedTitle, setUpdatedTitle] = useState(course.course.title);
+  const [UpdatedDescription, setUpdatedDescription] = useState(course.course.description);
+  const [UpdatedPrice, setUpdatedPrice] = useState(course.course.price);
+  const [UpdatedPublish, setUpdatedPublish] = useState(course.course.publish);
+  const [UpdatedImageLink, setUpdatedImageLink] = useState(course.course.imageLink);
 
   return (
     <div style={{ marginTop: -150 }}>
@@ -176,7 +212,10 @@ function UpdateCard(props) {
             </Typography>
             <ButtonBase
               onClick={() => {
-                props.setIsEditing(false);
+                setCourse((prevCourseState) => ({
+                  ...prevCourseState,
+                  isEditing : false
+                }));
               }}
             >
               <CloseIcon />
@@ -265,7 +304,7 @@ function UpdateCard(props) {
               size="large"
               onClick={async () => {
                 const response = await axios.put(
-                  `http://localhost:3000/admin/courses/${props.courseId}`,
+                  `http://localhost:3000/admin/courses/${courseId}`,
                   {
                     title: UpdatedTitle,
                     description: UpdatedDescription,
@@ -287,10 +326,13 @@ function UpdateCard(props) {
                   price: UpdatedPrice,
                   imageLink: UpdatedImageLink,
                   publish: UpdatedPublish,
-                  id: props.courseId,
+                  id: courseId,
                 };
-                props.setCourse(updatedCourse);
-                props.setIsEditing(false);
+                setCourse({
+                  course : updatedCourse,
+                  isLoading : true,
+                  isEditing : false
+                });
                 alert(data.message);
               }}
             >

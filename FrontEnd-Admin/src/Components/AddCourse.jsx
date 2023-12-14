@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import {
   Typography,
@@ -5,10 +6,9 @@ import {
   TextField,
   Button,
   FormGroup,
-  FormControlLabel,
   Checkbox,
+  FormControlLabel,
 } from "@mui/material";
-import axios from "axios";
 
 function AddCourse() {
   const [title, setTitle] = useState("");
