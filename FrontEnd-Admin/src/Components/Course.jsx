@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Loading from "./Loading";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import courseState from "../store/atoms/course";
-import {BASE_URL} from "../config";
+import BASE_URL from "../config";
 import {
   courseTitle,
   isEditing,

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import courseState from "../store/atoms/course";
 import { useSetRecoilState } from "recoil";
-import {BASE_URL} from "../config";
+import BASE_URL from "../config";
 import { Card, Typography, CardMedia, ButtonBase } from "@mui/material";
 
 function Courses() {

@@ -1,6 +1,6 @@
 import { Typography, Card, TextField, Button } from "@mui/material";
 import { useState } from "react";
-import {BASE_URL} from "../config";
+import BASE_URL from "../config";
 import axios from "axios";
 
 function Signup() {
