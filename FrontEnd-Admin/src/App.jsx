@@ -7,7 +7,7 @@ import Appbar from "./Components/Appbar";
 import Signup from "./Components/Signup";
 import Course from "./Components/Course";
 import Courses from "./Components/Courses";
-import AddCourse from "./Components/Addcourse";
+import AddCourse from "./Components/AddCourse";
 import AdminDashboard from "./Components/AdminDashboard";
 import userState from "./store/atoms/users";
 import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
