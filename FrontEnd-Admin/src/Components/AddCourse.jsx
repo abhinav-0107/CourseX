@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import {BASE_URL} from "../config";
 import {
   Typography,
   Card,
@@ -111,7 +112,7 @@ function AddCourse() {
               size="large"
               onClick={async () => {
                 const response = await axios.post(
-                  "http://localhost:3000/admin/courses",
+                  `${BASE_URL}/admin/courses`,
                   {
                     title,
                     description,

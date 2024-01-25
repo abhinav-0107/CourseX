@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import courseState from "../store/atoms/course";
 import { useSetRecoilState } from "recoil";
+import {BASE_URL} from "../config";
 import { Card, Typography, CardMedia, ButtonBase } from "@mui/material";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
 
   async function getCourses() {
-    const response = await axios.get("http://localhost:3000/admin/courses", {
+    const response = await axios.get(`${BASE_URL}/admin/courses`, {
       headers: {
         authorization: "Bearer " + localStorage.getItem("token"),
       },

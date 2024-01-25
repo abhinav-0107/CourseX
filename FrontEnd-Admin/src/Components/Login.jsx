@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import {BASE_URL} from "../config";
 import { Typography, Card, TextField, Button } from "@mui/material";
 
 function Signin() {
@@ -51,7 +52,7 @@ function Signin() {
             variant="contained"
             size="large"
             onClick={async () => {
-              const response = await axios.post("http://localhost:3000/admin/login",{
+              const response = await axios.post(`${BASE_URL}/admin/login`,{
                   username,
                   password,
               });

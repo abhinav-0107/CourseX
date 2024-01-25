@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Loading from "./Loading";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import courseState from "../store/atoms/course";
+import {BASE_URL} from "../config";
 import {
   courseTitle,
   isEditing,
@@ -34,7 +35,7 @@ function Course() {
 
   async function getCourse() {
     const response = await axios.get(
-      `http://localhost:3000/admin/courses/${courseId}`,
+      `${BASE_URL}/admin/courses/${courseId}`,
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -115,7 +116,7 @@ function CourseCard() {
           onClick={async () => {
             if (confirm("Are you sure you want to DELETE this course?")) {
               await axios.delete(
-                `http://localhost:3000/admin/courses/${courseId}`,
+                `${BASE_URL}/admin/courses/${courseId}`,
                 {
                   headers: {
                     Authorization:
@@ -304,7 +305,7 @@ function UpdateCard() {
               size="large"
               onClick={async () => {
                 const response = await axios.put(
-                  `http://localhost:3000/admin/courses/${courseId}`,
+                  `${BASE_URL}/admin/courses/${courseId}`,
                   {
                     title: UpdatedTitle,
                     description: UpdatedDescription,
